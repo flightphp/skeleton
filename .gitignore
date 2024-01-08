@@ -1,0 +1,3 @@
+vendor/
+.vscode/
+app/config/config.php
