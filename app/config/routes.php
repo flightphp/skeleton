@@ -1,11 +1,15 @@
 <?php
 
 use app\controllers\ApiExampleController;
+use flight\Engine;
 use flight\net\Router;
 
-/** @var Router $router */
-$router->get('/', function() {
-	echo 'Hello World!';
+/** 
+ * @var Router $router 
+ * @var Engine $app
+ */
+$router->get('/', function() use ($app) {
+	$app->render('welcome');
 });
 
 $router->group('/api', function() use ($router, $app) {
