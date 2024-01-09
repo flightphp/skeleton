@@ -9,7 +9,7 @@ use flight\net\Router;
  * @var Engine $app
  */
 $router->get('/', function() use ($app) {
-	$app->render('welcome');
+	$app->render('welcome', [ 'message' => 'You are gonna do great things!' ]);
 });
 
 $router->get('/hello-world/@name', function($name) {
@@ -18,7 +18,7 @@ $router->get('/hello-world/@name', function($name) {
 
 $router->group('/api', function() use ($router, $app) {
 	$Api_Example_Controller = new ApiExampleController($app);
-	$router->map('/users', [ $Api_Example_Controller, 'getUsers' ]);
-	$router->map('/users/@id', [ $Api_Example_Controller, 'getUser' ]);
-	$router->map('/users/@id', [ $Api_Example_Controller, 'updateUser' ]);
+	$router->get('/users', [ $Api_Example_Controller, 'getUsers' ]);
+	$router->get('/users/@id:[0-9]', [ $Api_Example_Controller, 'getUser' ]);
+	$router->post('/users/@id:[0-9]', [ $Api_Example_Controller, 'updateUser' ]);
 });
