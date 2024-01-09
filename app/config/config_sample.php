@@ -31,12 +31,20 @@ $app->set('flight.views.path', __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_
 $app->set('flight.views.extension', '.php'); // set the file extension for your view/template/ui files
 $app->set('flight.content_length', true); // if flight should send a content length header
 
-// This is where you will store database credentials, api credentials
-// and other sensitive information. This file will not be tracked by git
-// as you shouldn't be pushing sensitive information to a public or private
-// repository.
-// 
-// What you store here is totally up to you.
+// This makes sure that any new classes you have in you project are autoloaded
+$app->path(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
+// To autoload a class, let's say it's the app/controllers/ExampleController.php class
+// 		Make sure to have the class namespaced to app\controllers
+//		Make sure that your class has NO underscores in it. Underscores are not allowed in class names.
+
+/* 
+ * This is where you will store database credentials, api credentials
+ * and other sensitive information. This file will not be tracked by git
+ * as you shouldn't be pushing sensitive information to a public or private
+ * repository.
+ * 
+ * What you store here is totally up to you.
+ */
 return [
 	'database' => [
 		'host' => 'localhost',
