@@ -21,7 +21,9 @@ if(function_exists('setlocale') === true) {
 /* 
  * Set some flight variables
  */
-$app = Flight::app();
+if(empty($app)) {
+	$app = Flight::app();
+}
 $app->path(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
 $app->set('flight.base_url', '/'); // if this is in a subdirectory, you'll need to change this
 $app->set('flight.case_sensitive', false); // if you want case sensitive routes, set this to true
