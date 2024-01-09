@@ -12,6 +12,10 @@ $router->get('/', function() use ($app) {
 	$app->render('welcome');
 });
 
+$router->get('/hello-world/@name', function($name) {
+	echo '<h1>Hello world! Oh hey '.$name.'!</h1>';
+});
+
 $router->group('/api', function() use ($router, $app) {
 	$Api_Example_Controller = new ApiExampleController($app);
 	$router->map('/users', [ $Api_Example_Controller, 'getUsers' ]);
