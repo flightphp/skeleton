@@ -16,8 +16,8 @@ $app = new flight\Engine();
 
 /*
  * Load the config file
- * P.S. When you require a php file, and that file returns an array, the array
- * will be returned by the require statement.
+ * P.S. When you require a php file and that file returns an array, the array
+ * will be returned by the require statement where you can assign it to a var.
  */
 $config = require('config.php');
 
@@ -52,7 +52,7 @@ require('routes.php');
  * In many cases, services are all attached to something called a "services container"
  * or more simply, a "container". The container manages if you should share the same
  * service, or if you should create a new instance of the service every time you need it.
- * That's a discussion for another day. Suffice to say, that flight has a basic concept
+ * That's a discussion for another day. Suffice to say, that Flight has a basic concept
  * of a services container by registering classes to the Engine class.
  */ 
 require('services.php');

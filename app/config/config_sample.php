@@ -2,8 +2,6 @@
 
 use flight\Engine;
 
-/** @var Engine $app */
-
 // Set the default timezone
 date_default_timezone_set('America/New_York');
 
@@ -23,6 +21,8 @@ if(function_exists('setlocale') === true) {
 /* 
  * Set some flight variables
  */
+$app = Flight::app();
+$app->path(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
 $app->set('flight.base_url', '/'); // if this is in a subdirectory, you'll need to change this
 $app->set('flight.case_sensitive', false); // if you want case sensitive routes, set this to true
 $app->set('flight.log_errors', true); // if you want to log errors, set this to true
@@ -30,12 +30,6 @@ $app->set('flight.handle_errors', true); // if you want flight to handle errors,
 $app->set('flight.views.path', __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'views'); // set the path to your view/template/ui files
 $app->set('flight.views.extension', '.php'); // set the file extension for your view/template/ui files
 $app->set('flight.content_length', true); // if flight should send a content length header
-
-// This makes sure that any new classes you have in you project are autoloaded
-$app->path(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
-// To autoload a class, let's say it's the app/controllers/ExampleController.php class
-// 		Make sure to have the class namespaced to app\controllers
-//		Make sure that your class has NO underscores in it. Underscores are not allowed in class names.
 
 /* 
  * This is where you will store database credentials, api credentials

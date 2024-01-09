@@ -4,7 +4,7 @@ Use this skeleton application to quickly setup and start working on a new Flight
 
 This skeleton application was built for Composer. You also could download a zip of this repo and manually autoload the files by running `require('flight/autoload.php')` in your `app/config/bootstrap.php` file.
 
-## Install the Application
+## Install the Robust Version of the Application
 
 Run this command from the directory in which you want to install your new Flight PHP application. (this will require PHP 7.4 or newer)
 
@@ -12,18 +12,37 @@ Run this command from the directory in which you want to install your new Flight
 composer create-project flightphp/skeleton cool-project-name
 ```
 
-Replace `cool-project-name` with the desired directory name for your new application. You'll want to:
+Replace `cool-project-name` with the desired directory name for your new application.
 
-* Point your virtual host document root to your new application's `public/` directory (apache webserver, nginx, etc).
+### Robust Setup of the Application
+
+This skeleton will come with 2 versions of a starter application. The robust version is a fully structured application meant for projects that you anticipate will be a bigger size. This is setup with object oriented programming in mind so that it is easier to unit test and scale your project with multiple developers (or make it easier on yourself).
+
+The robust version adds an `app/` directory where everything has a basic structure. This is how this skeleton is configured by default.
 
 One additional thing you'll need to do is copy the `app/config/config_sample.php` file to `app/config/config.php` and update the values to be correct for your environment.
 
+### Simple Setup of the Application
+
+This is basically a single file application. The only exception to this is the config file which is still in the `app/config/` directory. This is a good starting point for smaller projects or projects that you don't anticipate will grow much.
+
+To use the simple version, you'll need to copy the `app/config/config_sample.php` file to `app/config/config.php`. Then you'll need to move the `index-simple.php` file to the `public/` directory and rename it to `index.php`. You can delete any other controllers, views, or config files (except the config.php file of course).
+
+With the simple setup, there is two very import security steps to be aware of. 
+- **DO NOT SAVE SENSITIVE CREDENTIALS TO THE index.php** FILE**. 
+- **DO NOT COMMIT ANY TYPE OF SENSITIVE CREDENTIALS TO YOUR REPOSITORY**.
+
+This is what the config file is for. If you need to save sensitive credentials, save them to the config file and then reference them in the index.php file.
+
+## Running the Application
 To run the application in development, you can run these commands 
 
 ```bash
 cd cool-project-name
 composer start
 ```
+
+__Note: If you run into an error similar to this `Failed to listen on localhost:8000 (reason: Address already in use)` then you'll need to change the port that the application is running on. You can do this by editing the `composer.json` file and changing the port in the `scripts.start` key.__
 
 Or you can use `docker-compose` to run the app with `docker`, so you can run these commands:
 ```bash
@@ -32,6 +51,6 @@ docker-compose up -d
 # or if a newer version of docker
 docker compose up -d
 ```
-After that, open `http://localhost:8080` in your browser.
+After that, open `http://localhost:8000` in your browser.
 
 That's it! Go build something flipping sweet!
