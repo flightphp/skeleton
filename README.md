@@ -2,9 +2,9 @@
 
 Use this skeleton application to quickly setup and start working on a new Flight PHP application. This application uses the latest version of Flight PHP v3.
 
-This skeleton application was built for Composer. You also could download a zip of this repo and manually autoload the files by running `require('flight/autoload.php')` in your `app/config/bootstrap.php` file.
+This skeleton application was built for Composer. You also could download a zip of this repo, downloading a zip of the [flightphp/core](https://github.com/flightphp/core]) repo, and manually autoload the files by running `require('flight/autoload.php')` in your `app/config/bootstrap.php` file.
 
-## Install the Robust Version of the Application
+## Installation
 
 Run this command from the directory in which you want to install your new Flight PHP application. (this will require PHP 7.4 or newer)
 
@@ -26,13 +26,13 @@ One additional thing you'll need to do is copy the `app/config/config_sample.php
 
 This is basically a single file application. The only exception to this is the config file which is still in the `app/config/` directory. This is a good starting point for smaller projects or projects that you don't anticipate will grow much.
 
-To use the simple version, you'll need to copy the `app/config/config_sample.php` file to `app/config/config.php`. Then you'll need to move the `index-simple.php` file to the `public/` directory and rename it to `index.php`. You can delete any other controllers, views, or config files (except the config.php file of course).
+To use the simple version, you'll need to copy the `app/config/config_sample.php` file to `app/config/config.php`. Then you'll need to move the `index-simple.php` file to the `public/` directory and rename it to `index.php`. You can delete any other controllers, views, or config files (except the `config.php` file of course).
 
 With the simple setup, there is two very import security steps to be aware of. 
-- **DO NOT SAVE SENSITIVE CREDENTIALS TO THE index.php** FILE**. 
+- **DO NOT SAVE SENSITIVE CREDENTIALS TO THE `index.php` FILE**. 
 - **DO NOT COMMIT ANY TYPE OF SENSITIVE CREDENTIALS TO YOUR REPOSITORY**.
 
-This is what the config file is for. If you need to save sensitive credentials, save them to the config file and then reference them in the index.php file.
+This is what the config file is for. If you need to save sensitive credentials, save them to the config file and then reference them in the `index.php` file.
 
 ## Running the Application
 To run the application in development, you can run these commands 
