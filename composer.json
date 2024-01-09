@@ -1,5 +1,32 @@
 {
+    "name": "slim/slim-skeleton",
+    "description": "A Flight PHP framework skeleton app to get your new projects up and running ASAP",
+    "keywords": [
+        "microframework",
+        "rest",
+        "restapi",
+        "simple",
+        "easy",
+        "lite"
+    ],
+    "homepage": "https://flightphp.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "n0nag0n",
+            "email": "n0nag0n@sky-9.com"
+        }
+    ],
     "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
         "flightphp/core": "^3.0"
+    },
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public"
     }
 }
