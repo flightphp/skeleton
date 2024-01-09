@@ -16,6 +16,8 @@ Replace `cool-project-name` with the desired directory name for your new applica
 
 * Point your virtual host document root to your new application's `public/` directory (apache webserver, nginx, etc).
 
+One additional thing you'll need to do is copy the `app/config/config_sample.php` file to `app/config/config.php` and update the values to be correct for your environment.
+
 To run the application in development, you can run these commands 
 
 ```bash
