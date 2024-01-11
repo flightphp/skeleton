@@ -35,6 +35,9 @@ With the simple setup, there is two very import security steps to be aware of.
 This is what the config file is for. If you need to save sensitive credentials, save them to the config file and then reference them in the `index.php` file.
 
 ## Running the Application
+
+### No Dependency Setup
+
 To run the application in development, you can run these commands 
 
 ```bash
@@ -42,9 +45,13 @@ cd cool-project-name
 composer start
 ```
 
+After that, open `http://localhost:8000` in your browser.
+
 __Note: If you run into an error similar to this `Failed to listen on localhost:8000 (reason: Address already in use)` then you'll need to change the port that the application is running on. You can do this by editing the `composer.json` file and changing the port in the `scripts.start` key.__
 
-Or you can use `docker-compose` to run the app with `docker`, so you can run these commands:
+### Docker Setup
+
+You can [install Docker](https://docs.docker.com/engine/install/) and use `docker-compose` to run the app with `docker`, so you can run these commands:
 ```bash
 cd cool-project-name
 docker-compose up -d
@@ -53,4 +60,14 @@ docker compose up -d
 ```
 After that, open `http://localhost:8000` in your browser.
 
+### Vagrant Setup
+You can [install Vagrant](https://vagrantup.com/download) and a provider like [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and use simple run the following command to bring up an environment with PHP/MariaDB already setup based on [n0nag0n/firefly](https://github.com/n0nag0n/firefly)
+
+```bash
+vagrant up
+```
+
+After that, open `http://localhost:8000` in your browser.
+
+## Do it!
 That's it! Go build something flipping sweet!
