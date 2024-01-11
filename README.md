@@ -64,6 +64,7 @@ After that, open `http://localhost:8000` in your browser.
 You can [install Vagrant](https://vagrantup.com/download) and a provider like [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and use simple run the following command to bring up an environment with PHP/MariaDB already setup based on [n0nag0n/firefly](https://github.com/n0nag0n/firefly)
 
 ```bash
+cd cool-project-name
 vagrant up
 ```
 
