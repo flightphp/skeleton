@@ -1,6 +1,6 @@
 <?php
 
-use flight\Engine;
+use Tracy\Debugger;
 
 // Set the default timezone
 date_default_timezone_set('America/New_York');
@@ -24,14 +24,29 @@ if(function_exists('setlocale') === true) {
 if(empty($app)) {
 	$app = Flight::app();
 }
-$app->path(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..');
+$app->path(__DIR__ . $ds . '..' . $ds . '..');
 $app->set('flight.base_url', '/'); // if this is in a subdirectory, you'll need to change this
 $app->set('flight.case_sensitive', false); // if you want case sensitive routes, set this to true
 $app->set('flight.log_errors', true); // if you want to log errors, set this to true
 $app->set('flight.handle_errors', true); // if you want flight to handle errors, set this to true
-$app->set('flight.views.path', __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'views'); // set the path to your view/template/ui files
+$app->set('flight.views.path', __DIR__ . $ds . '..' . $ds . 'views'); // set the path to your view/template/ui files
 $app->set('flight.views.extension', '.php'); // set the file extension for your view/template/ui files
 $app->set('flight.content_length', true); // if flight should send a content length header
+
+/* 
+ * Get Tracy up and running
+ * 
+ * There lots of setup options for Tracy! Logs, emails, clicking to
+ * open in your editor and a lot more!
+ * Check out the docs here:
+ * https://tracy.nette.org/
+ */
+Debugger::enable(Debugger::DEVELOPMENT);
+// Debugger::enable('23.75.345.200'); // you can also provide an array of IP addresses
+Debugger::$logDirectory = __DIR__ . $ds . '..' . $ds . 'log';
+Debugger::$showBar = true;
+Debugger::$strictMode = true; // display all errors
+// Debugger::$strictMode = E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED; // all errors except deprecated notices
 
 /* 
  * This is where you will store database credentials, api credentials

@@ -39,7 +39,6 @@ require(__DIR__ . $ds . '..' . $ds . 'vendor' . $ds . 'autoload.php');
 // comment the require above, and uncomment the line below and correct the path to your lib.
 // require(__DIR__ . $ds . '..' . $ds . 'path/to/flight/autoload.php');
 
-
 /*
  * Load the config file
  * P.S. When you require a php file and that file returns an array, the array

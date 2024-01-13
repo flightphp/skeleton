@@ -28,5 +28,8 @@
     },
     "scripts": {
         "start": "php -S localhost:8000 -t public"
+    },
+    "require-dev": {
+        "tracy/tracy": "^2.9"
     }
 }
