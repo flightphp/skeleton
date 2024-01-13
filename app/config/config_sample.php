@@ -45,9 +45,11 @@ Debugger::enable(); // auto tries to figure out your environment
 // Debugger::enable(Debugger::DEVELOPMENT) // sometimes you have to be explicit (also Debugger::PRODUCTION)
 // Debugger::enable('23.75.345.200'); // you can also provide an array of IP addresses
 Debugger::$logDirectory = __DIR__ . $ds . '..' . $ds . 'log';
-Debugger::$showBar = true;
 Debugger::$strictMode = true; // display all errors
 // Debugger::$strictMode = E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED; // all errors except deprecated notices
+if (Debugger::$showBar) {
+    $app->set('flight.content_length', false); // if Debugger bar is visible, then content-length can not be set by Flight
+}
 
 /* 
  * This is where you will store database credentials, api credentials
