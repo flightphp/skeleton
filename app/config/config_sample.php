@@ -41,7 +41,8 @@ $app->set('flight.content_length', true); // if flight should send a content len
  * Check out the docs here:
  * https://tracy.nette.org/
  */
-Debugger::enable(Debugger::DEVELOPMENT);
+Debugger::enable(); // auto tries to figure out your environment
+// Debugger::enable(Debugger::DEVELOPMENT) // sometimes you have to be explicit (also Debugger::PRODUCTION)
 // Debugger::enable('23.75.345.200'); // you can also provide an array of IP addresses
 Debugger::$logDirectory = __DIR__ . $ds . '..' . $ds . 'log';
 Debugger::$showBar = true;
