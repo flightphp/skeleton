@@ -13,7 +13,8 @@ if(file_exists(__DIR__. $ds . 'config.php') === false) {
 
 // It is better practice to not use static methods for everything. It makes your
 // app much more difficult to unit test easily.
-$app = new flight\Engine();
+// This is important as it connects any static calls to the same $app object
+$app = Flight::app();
 
 /*
  * Load the config file
