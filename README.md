@@ -2,7 +2,7 @@
 
 Use this skeleton application to quickly setup and start working on a new Flight PHP application. This application uses the latest version of Flight PHP v3.
 
-This skeleton application was built for Composer. You also could download a zip of this repo, downloading a zip of the [flightphp/core](https://github.com/flightphp/core]) repo, and manually autoload the files by running `require('flight/autoload.php')` in your `app/config/bootstrap.php` file.
+This skeleton application was built for Composer. You also could download a zip of this repo, downloading a zip of the [flightphp/core](https://github.com/flightphp/core) repo, and manually autoload the files by running `require('flight/autoload.php')` in your `app/config/bootstrap.php` file.
 
 ## Installation
 
