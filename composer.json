@@ -30,6 +30,7 @@
         "start": "php -S localhost:8000 -t public"
     },
     "require-dev": {
+        "flightphp/tracy-extensions": "^0.1.2",
         "tracy/tracy": "^2.9"
     }
 }
