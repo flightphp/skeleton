@@ -3,3 +3,4 @@ vendor/
 app/config/config.php
 composer.lock
 .vagrant/
+runway

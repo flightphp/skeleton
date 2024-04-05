@@ -32,7 +32,8 @@
         "sort-packages": true
     },
     "scripts": {
-        "start": "php -S localhost:8000 -t public"
+        "start": "php -S localhost:8000 -t public",
+		"post-create-project-cmd": "@php -r \"symlink('vendor/bin/runway', 'runway');\""
     },
     "require-dev": {
         "flightphp/tracy-extensions": "^0.1.2"
