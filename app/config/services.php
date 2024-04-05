@@ -4,7 +4,7 @@ use flight\Engine;
 use flight\database\PdoWrapper;
 
 /** 
- * @var array $config 
+ * @var array $config This comes from the returned array at the bottom of the config.php file
  * @var Engine $app
  */
 $dsn = 'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'] . ';charset=utf8mb4';

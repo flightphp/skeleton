@@ -25,6 +25,8 @@ if(function_exists('setlocale') === true) {
 if(empty($app)) {
 	$app = Flight::app();
 }
+// if you want to load classes that have underscores in them, comment out the following line
+// Loader::setV2ClassLoading(false);
 $app->path(__DIR__ . $ds . '..' . $ds . '..');
 $app->set('flight.base_url', '/'); // if this is in a subdirectory, you'll need to change this
 $app->set('flight.case_sensitive', false); // if you want case sensitive routes, set this to true

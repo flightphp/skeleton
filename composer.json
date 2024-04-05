@@ -7,20 +7,25 @@
         "restapi",
         "simple",
         "easy",
-        "lite"
+        "lite",
+		"boilerplate",
+		"skeleton"
     ],
-    "homepage": "https://flightphp.com",
+    "homepage": "https://docs.flightphp.com",
     "license": "MIT",
     "authors": [
         {
             "name": "n0nag0n",
-            "email": "n0nag0n@sky-9.com"
+            "email": "n0nag0n@sky-9.com",
+			"role": "lead"
         }
     ],
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
-        "flightphp/core": "^3.0"
+        "flightphp/core": "^3.0",
+        "flightphp/runway": "^0.1.0",
+        "tracy/tracy": "^2.9"
     },
     "config": {
         "process-timeout": 0,
@@ -30,7 +35,6 @@
         "start": "php -S localhost:8000 -t public"
     },
     "require-dev": {
-        "flightphp/tracy-extensions": "^0.1.2",
-        "tracy/tracy": "^2.9"
+        "flightphp/tracy-extensions": "^0.1.2"
     }
 }
