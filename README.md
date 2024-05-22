@@ -14,6 +14,8 @@ composer create-project flightphp/skeleton cool-project-name
 
 Replace `cool-project-name` with the desired directory name for your new application.
 
+**Note:** If you are installing with PHP 8.0 or above and want to use `tracy-extensions` be sure to run `composer require --dev flightphp/tracy-extensions "^0.2"` after the project is created.
+
 ### Robust Setup of the Application
 
 This skeleton will come with 2 versions of a starter application. The robust version is a fully structured application meant for projects that you anticipate will be a bigger size. This is setup with object oriented programming in mind so that it is easier to unit test and scale your project with multiple developers (or make it easier on yourself).

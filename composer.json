@@ -36,6 +36,6 @@
 		"post-create-project-cmd": "@php -r \"symlink('vendor/bin/runway', 'runway');\""
     },
     "require-dev": {
-        "flightphp/tracy-extensions": "^0.1.2"
+        "flightphp/tracy-extensions": "^0.1"
     }
 }
