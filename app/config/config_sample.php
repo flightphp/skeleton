@@ -65,14 +65,20 @@ if (Debugger::$showBar && php_sapi_name() !== 'cli') {
  */
 return [
 	'database' => [
-		'host' => 'localhost',
-		'dbname' => 'dbname',
-		'user' => 'user',
-		'password' => 'password'
+		// uncomment the below 4 lines for mysql
+		// 'host' => 'localhost',
+		// 'dbname' => 'dbname',
+		// 'user' => 'user',
+		// 'password' => 'password'
+
+		// uncomment the following line for sqlite
+		// 'file_path' => __DIR__ . $ds . '..' . $ds . 'database.sqlite'
 	],
-	'google_oauth' => [
-		'client_id' => 'client_id',
-		'client_secret' => 'client_secret',
-		'redirect_uri' => 'redirect_uri'
-	],
+
+	// this is just here for an example
+	// 'google_oauth' => [
+	// 	'client_id' => 'client_id',
+	// 	'client_secret' => 'client_secret',
+	// 	'redirect_uri' => 'redirect_uri'
+	// ],
 ];
