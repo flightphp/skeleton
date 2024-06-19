@@ -2,6 +2,7 @@
 
 use flight\Engine;
 use flight\database\PdoWrapper;
+use flight\debug\database\PdoQueryCapture;
 
 /** 
  * @var array $config This comes from the returned array at the bottom of the config.php file
@@ -13,7 +14,10 @@ use flight\database\PdoWrapper;
 
 // uncomment the following line for SQLite
 // $dsn = sqlite:' . $config['database']['file_path'];
-$app->register('db', PdoWrapper::class, [ $dsn, $config['database']['user'] ?? null, $config['database']['password'] ?? null ]);
+
+// In development, you'll want the class that captures the queries for you. In production, not so much.
+$pdoClass = Debugger::$showBar === true ? PdoQueryCapture::class : PdoWrapper::class;
+$app->register('db', $pdoClass, [ $dsn, $config['database']['user'] ?? null, $config['database']['password'] ?? null ]);
 
 // Got google oauth stuff? You could register that here
 // $app->register('google_oauth', Google_Client::class, [ $config['google_oauth'] ]);
