@@ -1,3 +1,4 @@
 {
-    "index_root": "public\/index.php"
+    "index_root": "public\/index.php",
+    "app_root": "app\/"
 }
