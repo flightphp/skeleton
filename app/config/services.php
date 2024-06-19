@@ -3,6 +3,7 @@
 use flight\Engine;
 use flight\database\PdoWrapper;
 use flight\debug\database\PdoQueryCapture;
+use Tracy\Debugger;
 
 /** 
  * @var array $config This comes from the returned array at the bottom of the config.php file
