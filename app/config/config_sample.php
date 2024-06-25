@@ -36,6 +36,9 @@ $app->set('flight.views.path', __DIR__ . $ds . '..' . $ds . 'views'); // set the
 $app->set('flight.views.extension', '.php'); // set the file extension for your view/template/ui files
 $app->set('flight.content_length', true); // if flight should send a content length header
 
+// This breaks the browser cache headers so requests don't get cached. This is good in a dynamic application
+$app->response()->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+
 /* 
  * Get Tracy up and running
  * 
