@@ -22,13 +22,11 @@ This skeleton will come with 2 versions of a starter application. The robust ver
 
 The robust version adds an `app/` directory where everything has a basic structure. This is how this skeleton is configured by default.
 
-One additional thing you'll need to do is copy the `app/config/config_sample.php` file to `app/config/config.php` and update the values to be correct for your environment.
-
 ### Simple Setup of the Application
 
 This is basically a single file application. The only exception to this is the config file which is still in the `app/config/` directory. This is a good starting point for smaller projects or projects that you don't anticipate will grow much.
 
-To use the simple version, you'll need to copy the `app/config/config_sample.php` file to `app/config/config.php`. Then you'll need to move the `index-simple.php` file to the `public/` directory and rename it to `index.php`. You can delete any other controllers, views, or config files (except the `config.php` file of course).
+To use the simple version, you'll need to move the `index-simple.php` file to the `public/` directory and rename it to `index.php`. You can delete any other controllers, views, or config files (except the `config.php` file of course).
 
 With the simple setup, there is two very import security steps to be aware of. 
 - **DO NOT SAVE SENSITIVE CREDENTIALS TO THE `index.php` FILE**. 

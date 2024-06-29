@@ -34,7 +34,13 @@
     },
     "scripts": {
         "start": "php -S localhost:8000 -t public",
-		"post-create-project-cmd": "@php -r \"symlink('vendor/bin/runway', 'runway');\""
+		"post-create-project-cmd": [ 
+			"@php -r \"symlink('vendor/bin/runway', 'runway');\"",
+			"@php -r \"copy('app/config/config_sample.php', 'app/config/config.php');\"",
+			"@php -r \"mkdir('app/middlewares/');\"",
+			"@php -r \"mkdir('app/cache/');\"",
+			"@php -r \"mkdir('app/log/');\""
+		]
     },
     "require-dev": {
         "flightphp/tracy-extensions": "^0.1"
