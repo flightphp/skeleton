@@ -1,5 +1,4 @@
 {
-    "version": "1.0.0",
     "name": "flightphp/skeleton",
     "description": "A Flight PHP framework skeleton app to get your new projects up and running ASAP",
     "keywords": [
