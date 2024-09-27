@@ -16,9 +16,10 @@ use Tracy\Debugger;
 // uncomment the following line for SQLite
 // $dsn = 'sqlite:' . $config['database']['file_path'];
 
+// Uncomment the below lines if you want to add a Flight::db() service
 // In development, you'll want the class that captures the queries for you. In production, not so much.
-$pdoClass = Debugger::$showBar === true ? PdoQueryCapture::class : PdoWrapper::class;
-$app->register('db', $pdoClass, [ $dsn, $config['database']['user'] ?? null, $config['database']['password'] ?? null ]);
+// $pdoClass = Debugger::$showBar === true ? PdoQueryCapture::class : PdoWrapper::class;
+// $app->register('db', $pdoClass, [ $dsn, $config['database']['user'] ?? null, $config['database']['password'] ?? null ]);
 
 // Got google oauth stuff? You could register that here
 // $app->register('google_oauth', Google_Client::class, [ $config['google_oauth'] ]);
