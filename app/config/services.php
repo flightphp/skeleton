@@ -10,10 +10,10 @@ use Tracy\Debugger;
  * @var Engine $app
  */
 
-// uncomment the following line for MySQL
+// Uncomment the following line for MySQL
 // $dsn = 'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'] . ';charset=utf8mb4';
 
-// uncomment the following line for SQLite
+// Uncomment the following line for SQLite
 // $dsn = 'sqlite:' . $config['database']['file_path'];
 
 // Uncomment the below lines if you want to add a Flight::db() service

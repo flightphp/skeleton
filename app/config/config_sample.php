@@ -37,7 +37,7 @@ $app->set('flight.log_errors', true); // if you want to log errors, set this to 
 $app->set('flight.handle_errors', false); // if you want flight to handle errors, set this to true, otherwise Tracy will handle them
 $app->set('flight.views.path', __DIR__ . $ds . '..' . $ds . 'views'); // set the path to your view/template/ui files
 $app->set('flight.views.extension', '.php'); // set the file extension for your view/template/ui files
-$app->set('flight.content_length', true); // if flight should send a content length header
+$app->set('flight.content_length', false); // if flight should send a content length header
 
 /* 
  * Get Tracy up and running
@@ -54,7 +54,6 @@ Debugger::$logDirectory = __DIR__ . $ds . '..' . $ds . 'log';
 Debugger::$strictMode = true; // display all errors
 // Debugger::$strictMode = E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED; // all errors except deprecated notices
 if (Debugger::$showBar && php_sapi_name() !== 'cli') {
-    $app->set('flight.content_length', false); // if Debugger bar is visible, then content-length can not be set by Flight
 	(new TracyExtensionLoader($app));
 }
 
