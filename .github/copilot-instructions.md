@@ -38,14 +38,16 @@ project-root/
 
 ## Development Guidelines
 
-- **Controllers:** Place all route-handling logic in `app/controllers/`. Each controller should handle a specific resource or feature. For large projects, move business logic out of controllers and into the `app/logic/` directory as dedicated classes/services, and call them from your controllers. Use appropriate namespaces for organization. By default, all controllers inject the `Engine $app` variable unless this project has its own dependency injection handler. Namespaces for Flight projects are defined in lowercase characters until the name of the class. For example, it is `app/controllers/HomeController.php` and not `App/Controllers/HomeController.php`.
+- **Controllers:** Place all route-handling logic in `app/controllers/`. Each controller should handle a specific resource or feature. For large projects, move business logic out of controllers and into the `app/logic/` directory as dedicated classes/services, and call them from your controllers. Use appropriate namespaces for organization. By default, all controllers inject the `Engine $app` variable unless this project has its own dependency injection handler.
+- **Namespaces:** Use lowercase namespaces for all classes in the `app/` directory. For example, `app/controllers/HomeController.php` should have the namespace `app\controllers`.
 - **Middlewares:** Store reusable middleware in `app/middlewares/`. Register them in your bootstrap or route files.
 - **Utils:** Place helper functions and utilities in `app/utils/`.
 - **Models:** If your app uses data models, keep them in `app/models/`.
 - **Views:** Store templates in `app/views/` if using a templating engine.
-- **Config:** Use the `app/config/` directory for configuration files. The main config file is `config.php`, which should be created by copying `config_sample.php` and updating as needed.
+- **Config:** Use the `app/config/` directory for configuration files. The main config file is `config.php`, which should be created by copying `config_sample.php` and updating as needed. In other main bootstrap files like bootstrap, and services.php, the $config variable is available to use to access configuration values.
 - **Public:** Only expose the `public/` directory to the web server. All requests should go through `public/index.php`.
 - **Environment:** Do not use .env files; all configuration should be managed in `app/config/config.php`.
+- **Routes:** Define routes in `app/config/routes.php`. Use the `$router->map()` method to register routes with all request methods or `$router->get()` for `GET $router->post()` for POST etc. and associate them with controller methods. Best practice for defining the controller is [ MyController::class, 'myMethod' ].
 
 ## Getting Started
 

@@ -4,3 +4,4 @@ app/config/config.php
 composer.lock
 .vagrant/
 runway
+.runway-creds.json
