@@ -117,94 +117,66 @@ Flight is highly extensible. Here are some recommended packages and plugins for 
 
 Choose the packages that best fit your project's needs. Official FlightPHP packages are recommended for core functionality.
 
-## Security Best Practices
+## Security Best Practices (Condensed)
 
-All code implemented in this project must follow secure coding best practices. Insecure code will not be accepted. Always assume user input is hostile and never trust data from users or external sources. The following guidelines and examples are required for all code contributions:
+All code must follow secure coding practices. Always treat user input as untrusted. Key requirements:
 
 ### Cross Site Scripting (XSS)
-- Always escape output from users before rendering in views.
-- Use Flight's view class or a templating engine like Latte, which auto-escapes variables.
-
+- Always escape user output in views.
+- Use Flight’s view class or a templating engine (e.g., Latte) for auto-escaping.
 ```php
-// Example: Escaping user input in views
-$name = '<script>alert("XSS")</script>';
-Flight::view()->set('name', $name); // Escapes output
-Flight::view()->render('template', ['name' => $name]); // Latte auto-escapes
+Flight::view()->set('name', $name);
+Flight::view()->render('template', ['name' => $name]);
 ```
 
 ### SQL Injection
-- Never concatenate user input into SQL queries.
+- Never concatenate user input in SQL.
 - Always use prepared statements or parameterized queries.
-
 ```php
-// Secure: Using prepared statements
 $statement = Flight::db()->prepare('SELECT * FROM users WHERE username = :username');
 $statement->execute([':username' => $username]);
-$users = $statement->fetchAll();
-
-// Or with PdoWrapper
-$users = Flight::db()->fetchAll('SELECT * FROM users WHERE username = :username', [ 'username' => $username ]);
 ```
 
-### CORS (Cross-Origin Resource Sharing)
-- Set CORS headers using a utility or middleware before Flight::start().
+### CORS
+- Set CORS headers via utility or middleware before `Flight::start()`.
 - Only allow trusted origins.
-
 ```php
-// Example: app/utils/CorsUtil.php
-namespace app\utils;
-class CorsUtil {
-    public function set(array $params): void { /* ...see docs for full example... */ }
-    private function allowOrigins(): void { /* ... */ }
-}
-// In index.php
-$CorsUtil = new CorsUtil();
-Flight::before('start', [ $CorsUtil, 'set' ]);
+Flight::before('start', [ (new CorsUtil()), 'set' ]);
 ```
 
 ### Error Handling
-- Never display sensitive error details in production.
-- Log errors instead and use Flight::halt() for controlled responses.
-
+- Don’t display sensitive errors in production; log them instead.
+- Use `Flight::halt()` for controlled responses.
 ```php
-$environment = ENVIRONMENT;
-if ($environment === 'production') {
+if (ENVIRONMENT === 'production') {
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
-    ini_set('error_log', '/path/to/error.log');
 }
-// Controlled error response
 Flight::halt(403, 'Access denied');
 ```
 
 ### Input Sanitization
-- Always sanitize and validate user input before processing.
-
+- Sanitize and validate all user input.
 ```php
 $clean_input = filter_var(Flight::request()->data->input, FILTER_SANITIZE_STRING);
-$clean_email = filter_var(Flight::request()->data->email, FILTER_SANITIZE_EMAIL);
 ```
 
 ### Password Hashing
-- Always hash passwords using PHP's built-in functions. Never store plain text passwords.
-
+- Always hash passwords; never store plain text.
 ```php
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 if (password_verify($password, $stored_hash)) { /* Password matches */ }
 ```
 
 ### Rate Limiting
-- Use caching or middleware to limit repeated requests and prevent brute force attacks.
-
+- Use caching or middleware to limit repeated requests.
 ```php
 Flight::before('start', function() {
     $cache = Flight::cache();
     $ip = Flight::request()->ip;
     $key = "rate_limit_{$ip}";
     $attempts = (int) $cache->retrieve($key);
-    if ($attempts >= 10) {
-        Flight::halt(429, 'Too many requests');
-    }
+    if ($attempts >= 10) Flight::halt(429, 'Too many requests');
     $cache->set($key, $attempts + 1, 60);
 });
 ```
