@@ -16,9 +16,8 @@ $router->get('/hello-world/@name', function($name) {
 	echo '<h1>Hello world! Oh hey '.$name.'!</h1>';
 });
 
-$router->group('/api', function() use ($router, $app) {
-	$Api_Example_Controller = new ApiExampleController($app);
-	$router->get('/users', [ $Api_Example_Controller, 'getUsers' ]);
-	$router->get('/users/@id:[0-9]', [ $Api_Example_Controller, 'getUser' ]);
-	$router->post('/users/@id:[0-9]', [ $Api_Example_Controller, 'updateUser' ]);
+$router->group('/api', function() use ($router) {
+	$router->get('/users', [ ApiExampleController::class, 'getUsers' ]);
+	$router->get('/users/@id:[0-9]', [ ApiExampleController::class, 'getUser' ]);
+	$router->post('/users/@id:[0-9]', [ ApiExampleController::class, 'updateUser' ]);
 });

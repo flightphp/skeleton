@@ -23,25 +23,6 @@ $app = Flight::app();
  */
 $config = require('config.php');
 
-// Whip out the ol' router and we'll pass that to the routes file
-$router = $app->router();
-
-/*
- * Load the routes file. the $router variable above is passed into the routes.php
- * file below so that you can define routes in that file.
- * A route is really just a URL, but saying route makes you sound cooler.
- * When someone hits that URL, you point them to a function or method 
- * that will handle the request.
- */
-require('routes.php');
-/*
- * You additionally could just define the routes in this file. It's up to you.
- * Example:
-	$router->get('/', function() {
-		echo 'Hello World!';
-	});
-*/
-
 /*
  * Load the services file.
  * A "service" is basically something special that you want to use in your app.
@@ -58,6 +39,18 @@ require('routes.php');
  * of a services container by registering classes to the Engine class.
  */ 
 require('services.php');
+
+// Whip out the ol' router and we'll pass that to the routes file
+$router = $app->router();
+
+/*
+ * Load the routes file. the $router variable above is passed into the routes.php
+ * file below so that you can define routes in that file.
+ * A route is really just a URL, but saying route makes you sound cooler.
+ * When someone hits that URL, you point them to a function or method 
+ * that will handle the request.
+ */
+require('routes.php');
 
 // At this point, your app should have all the instructions it needs and it'll
 // "start" processing everything. This is where the magic happens.

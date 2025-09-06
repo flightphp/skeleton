@@ -1,86 +1,83 @@
 <?php
 
-use flight\debug\tracy\TracyExtensionLoader;
-use Tracy\Debugger;
+/**********************************************
+ *      FlightPHP Skeleton Sample Config      *
+ **********************************************
+ *
+ * Copy this file to config.php and update values as needed.
+ * All settings are required unless marked as optional.
+ *
+ * Example:
+ *   cp app/config/config_sample.php app/config/config.php
+ *
+ * This file is NOT tracked by git. Store sensitive credentials here.
+ **********************************************/
 
-// Set the default timezone
-date_default_timezone_set('America/New_York');
+/**********************************************
+ *         Application Environment            *
+ **********************************************/
+// Set your timezone (e.g., 'America/New_York', 'UTC')
+date_default_timezone_set('UTC');
 
-// Set the error reporting level
+// Error reporting level (E_ALL recommended for development)
 error_reporting(E_ALL);
 
-// Set the default character encoding
-if(function_exists('mb_internal_encoding') === true) {
+// Character encoding
+if (function_exists('mb_internal_encoding') === true) {
 	mb_internal_encoding('UTF-8');
 }
 
-// Set the default locale
-if(function_exists('setlocale') === true) {
+// Default Locale Change as needed or feel free to remove.
+if (function_exists('setlocale') === true) {
 	setlocale(LC_ALL, 'en_US.UTF-8');
 }
 
+/**********************************************
+ *           FlightPHP Core Settings          *
+ **********************************************/
+
 // Get the $app var to use below
-if(empty($app)) {
+if (empty($app) === true) {
 	$app = Flight::app();
 }
 
-// if you want to load classes that have underscores in them, comment out the following line
-// Loader::setV2ClassLoading(false);
-
 // This autoloads your code in the app directory so you don't have to require_once everything
+// You'll need to namespace your classes with "app\folder\" to include them properly
 $app->path(__DIR__ . $ds . '..' . $ds . '..');
 
-// This is where you can set some flight config variables. 
-$app->set('flight.base_url', '/'); // if this is in a subdirectory, you'll need to change this
-$app->set('flight.case_sensitive', false); // if you want case sensitive routes, set this to true
-$app->set('flight.log_errors', true); // if you want to log errors, set this to true
-$app->set('flight.handle_errors', false); // if you want flight to handle errors, set this to true, otherwise Tracy will handle them
-$app->set('flight.views.path', __DIR__ . $ds . '..' . $ds . 'views'); // set the path to your view/template/ui files
-$app->set('flight.views.extension', '.php'); // set the file extension for your view/template/ui files
-$app->set('flight.content_length', false); // if flight should send a content length header
+// Core config variables
+$app->set('flight.base_url', '/',);           // Base URL for your app. Change if app is in a subdirectory (e.g., '/myapp/')
+$app->set('flight.case_sensitive', false);    // Set true for case sensitive routes. Default: false
+$app->set('flight.log_errors', true);         // Log errors to file. Recommended: true in production
+$app->set('flight.handle_errors', false);     // Let Tracy handle errors if false. Set true to use Flight's error handler
+$app->set('flight.views.path', __DIR__ . $ds . '..' . $ds . 'views'); // Path to views/templates
+$app->set('flight.views.extension', '.php');  // View file extension (e.g., '.php', '.latte')
+$app->set('flight.content_length', false);    // Send content length header. Usually false unless required by proxy
 
-/* 
- * Get Tracy up and running
- * 
- * There lots of setup options for Tracy! Logs, emails, clicking to
- * open in your editor and a lot more!
- * Check out the docs here:
- * https://tracy.nette.org/
- */
-Debugger::enable(); // auto tries to figure out your environment
-// Debugger::enable(Debugger::DEVELOPMENT) // sometimes you have to be explicit (also Debugger::PRODUCTION)
-// Debugger::enable('23.75.345.200'); // you can also provide an array of IP addresses
-Debugger::$logDirectory = __DIR__ . $ds . '..' . $ds . 'log';
-Debugger::$strictMode = true; // display all errors
-// Debugger::$strictMode = E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED; // all errors except deprecated notices
-if (Debugger::$showBar && php_sapi_name() !== 'cli') {
-	(new TracyExtensionLoader($app));
-}
-
-/* 
- * This is where you will store database credentials, api credentials
- * and other sensitive information. This file will not be tracked by git
- * as you shouldn't be pushing sensitive information to a public or private
- * repository.
- * 
- * What you store here is totally up to you.
- */
+/**********************************************
+ *           User Configuration               *
+ **********************************************/
 return [
+	/**************************************
+	 *         Database Settings          *
+	 **************************************/
 	'database' => [
-		// uncomment the below 4 lines for mysql
-		// 'host' => 'localhost',
-		// 'dbname' => 'dbname',
-		// 'user' => 'user',
-		// 'password' => 'password'
+		// MySQL Example:
+		// 'host'     => 'localhost',      // Database host (e.g., 'localhost', 'db.example.com')
+		// 'dbname'   => 'your_db_name',   // Database name (e.g., 'flightphp')
+		// 'user'     => 'your_username',  // Database user (e.g., 'root')
+		// 'password' => 'your_password',  // Database password (never commit real passwords)
 
-		// uncomment the following line for sqlite
-		// 'file_path' => __DIR__ . $ds . '..' . $ds . 'database.sqlite'
+		// SQLite Example:
+		// 'file_path' => __DIR__ . $ds . '..' . $ds . 'database.sqlite', // Path to SQLite file
 	],
 
-	// this is just here for an example
+	// Google OAuth Credentials
 	// 'google_oauth' => [
-	// 	'client_id' => 'client_id',
-	// 	'client_secret' => 'client_secret',
-	// 	'redirect_uri' => 'redirect_uri'
+	//     'client_id'     => 'your_client_id',     // Google API client ID
+	//     'client_secret' => 'your_client_secret', // Google API client secret
+	//     'redirect_uri'  => 'your_redirect_uri',  // Redirect URI for OAuth callback
 	// ],
+
+	// Add more configuration sections below as needed
 ];
