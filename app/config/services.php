@@ -22,13 +22,13 @@ use Tracy\Debugger;
  *           Session Service Setup           *
  *********************************************
  * To enable sessions in FlightPHP, register the session service.
- * Docs: https://docs.flightphp.com/en/v3/awesome-plugins/session
+ * Docs: https://docs.flightphp.com/awesome-plugins/session
  *
  * Example:
- *   $app->register('session', \flight\session\Session::class, [
+ *   $app->register('session', \flight\Session::class, [
  *       [
- *           'cookie_name' => 'flight_session', // Name of the session cookie
- *           'timeout'     => 3600,             // Session timeout in seconds
+ *           'prefix' 		=> 'flight_session_', 	  // Prefix for the session cookie
+ *           'save_path'    => 'path/to/my/sessions', // Path to save session files
  *           // ...other options...
  *       ]
  *   ]);
