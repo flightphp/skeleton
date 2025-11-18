@@ -41,16 +41,19 @@ if (empty($app) === true) {
 	$app = Flight::app();
 }
 
+// Refer to this constant to get the project root directory
+define('PROJECT_ROOT', __DIR__ . '/../..');
+
 // This autoloads your code in the app directory so you don't have to require_once everything
 // You'll need to namespace your classes with "app\folder\" to include them properly
-$app->path(__DIR__ . $ds . '..' . $ds . '..');
+$app->path(PROJECT_ROOT);
 
 // Core config variables
 $app->set('flight.base_url', '/',);           // Base URL for your app. Change if app is in a subdirectory (e.g., '/myapp/')
 $app->set('flight.case_sensitive', false);    // Set true for case sensitive routes. Default: false
 $app->set('flight.log_errors', true);         // Log errors to file. Recommended: true in production
 $app->set('flight.handle_errors', false);     // Let Tracy handle errors if false. Set true to use Flight's error handler
-$app->set('flight.views.path', __DIR__ . $ds . '..' . $ds . 'views'); // Path to views/templates
+$app->set('flight.views.path', PROJECT_ROOT . '/app/views'); // Path to views/templates
 $app->set('flight.views.extension', '.php');  // View file extension (e.g., '.php', '.latte')
 $app->set('flight.content_length', false);    // Send content length header. Usually false unless required by proxy
 
@@ -61,6 +64,10 @@ $app->set('csp_nonce', $nonce);
 /**********************************************
  *           User Configuration               *
  **********************************************/
+
+// When you `return` an array here, and then include this file elsewhere,
+// you'll get this array back for your configuration settings.
+// $config = include PROJECT_ROOT .'/config.php';
 return [
 	/**************************************
 	 *         Database Settings          *
@@ -75,6 +82,14 @@ return [
 		// SQLite Example:
 		// 'file_path' => __DIR__ . $ds . '..' . $ds . 'database.sqlite', // Path to SQLite file
 	],
+
+	/**************************************
+	 *        Runway Settings             *
+	 **************************************/
+	'runway' => [
+		'index_root' => "public/index.php",
+    	'app_root' => "app/"
+	]
 
 	// Google OAuth Credentials
 	// 'google_oauth' => [
