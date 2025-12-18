@@ -67,7 +67,7 @@ $app->set('csp_nonce', $nonce);
 
 // When you `return` an array here, and then include this file elsewhere,
 // you'll get this array back for your configuration settings.
-// $config = include PROJECT_ROOT .'/config.php';
+// $config = include PROJECT_ROOT .'/app/config/config.php';
 return [
 	/**************************************
 	 *         Database Settings          *
@@ -88,7 +88,7 @@ return [
 	 **************************************/
 	'runway' => [
 		'index_root' => "public/index.php",
-    	'app_root' => "app/"
+		'app_root' => "app/"
 	]
 
 	// Google OAuth Credentials
