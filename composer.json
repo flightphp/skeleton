@@ -8,8 +8,8 @@
         "simple",
         "easy",
         "lite",
-		"boilerplate",
-		"skeleton"
+        "boilerplate",
+        "skeleton"
     ],
     "homepage": "https://docs.flightphp.com",
     "license": "MIT",
@@ -17,7 +17,7 @@
         {
             "name": "n0nag0n",
             "email": "n0nag0n@sky-9.com",
-			"role": "lead"
+            "role": "lead"
         }
     ],
     "require": {
@@ -32,14 +32,14 @@
         "sort-packages": true
     },
     "scripts": {
-        "start": "php -S localhost:8000 -t public",
-		"post-create-project-cmd": [ 
-			"@php -r \"copy('app/config/config_sample.php', 'app/config/config.php');\"",
-			"@php -r \"mkdir('app/models/');\"",
-			"@php -r \"mkdir('app/utils/');\"",
-			"@php -r \"mkdir('app/cache/');\"",
-			"@php -r \"mkdir('app/log/');\""
-		]
+        "start": "@php -S localhost:8000 -t public",
+        "post-create-project-cmd": [
+            "@php -r \"copy('app/config/config_sample.php', 'app/config/config.php');\"",
+            "@php -r \"mkdir('app/models/');\"",
+            "@php -r \"mkdir('app/utils/');\"",
+            "@php -r \"mkdir('app/cache/');\"",
+            "@php -r \"mkdir('app/log/');\""
+        ]
     },
     "require-dev": {
         "flightphp/tracy-extensions": "^0.1 || ^0.2"
