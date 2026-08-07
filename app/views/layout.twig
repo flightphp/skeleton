@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FlightPHP Skeleton{% endblock %}</title>
+    <style nonce="{{ csp_nonce }}">
+        :root {
+            --bg: #0f1419;
+            --panel: #1a2332;
+            --text: #e7ecf3;
+            --muted: #8b9bb4;
+            --accent: #3d8bfd;
+            --border: #2a3548;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            background: var(--panel);
+        }
+        header .brand { font-weight: 700; letter-spacing: 0.02em; }
+        header nav { display: flex; gap: 1rem; font-size: 0.95rem; }
+        main { max-width: 720px; margin: 2rem auto; padding: 0 1.5rem; }
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        h1 { margin-top: 0; font-size: 1.75rem; }
+        .muted { color: var(--muted); font-size: 0.9rem; }
+        ul.posts { list-style: none; padding: 0; margin: 0; }
+        ul.posts li { padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+        ul.posts li:last-child { border-bottom: none; }
+        code {
+            background: #0b1018;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="brand">FlightPHP</div>
+        <nav>
+            <a href="{{ base_url }}">Home</a>
+            <a href="{{ base_url }}posts">Posts</a>
+            <a href="{{ base_url }}api/posts">API</a>
+        </nav>
+    </header>
+    <main>
+        {% block body %}{% endblock %}
+    </main>
+</body>
+</html>

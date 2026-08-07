@@ -1,0 +1,25 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Welcome — FlightPHP Skeleton{% endblock %}
+
+{% block body %}
+<div class="card">
+    <h1>Welcome to FlightPHP</h1>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <p class="muted">
+        Environment: <code>{{ env }}</code>
+        · Debug: <code>{{ debug ? 'on' : 'off' }}</code>
+    </p>
+</div>
+<div class="card">
+    <h2>Next steps</h2>
+    <ol>
+        <li>Read <code>AGENTS.md</code> for AI-friendly project rules</li>
+        <li>Run <code>php runway migrate</code> to create the sample posts table</li>
+        <li>Open <a href="{{ base_url }}posts">/posts</a> for the ActiveRecord example</li>
+        <li>Add a route in <code>app/config/routes.php</code> and a controller under <code>App\Controller</code></li>
+    </ol>
+</div>
+{% endblock %}

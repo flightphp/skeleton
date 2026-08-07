@@ -1,30 +1,30 @@
 <?php
 
-use app\controllers\ApiExampleController;
-use app\middlewares\SecurityHeadersMiddleware;
-use flight\Engine;
-use flight\net\Router;
-
-/** 
- * @var Router $router 
- * @var Engine $app
+/**
+ * Application routes.
+ *
+ * @var \flight\net\Router $router
+ * @var \flight\Engine<object> $app
+ * @var \App\Utils\Config $config
  */
 
-// This wraps all routes in the group with the SecurityHeadersMiddleware
-$router->group('', function(Router $router) use ($app) {
+use App\Controller\HomeController;
+use App\Controller\PostController;
+use App\Middleware\SecurityHeadersMiddleware;
+use App\Utils\DatabaseFactory;
+use flight\net\Router;
 
-	$router->get('/', function() use ($app) {
-		$app->render('welcome', [ 'message' => 'You are gonna do great things!' ]);
-	});
+$router->group('', function (Router $router) use ($config) {
+    $router->get('/', [HomeController::class, 'index']);
 
-	$router->get('/hello-world/@name', function($name) {
-		echo '<h1>Hello world! Oh hey '.$name.'!</h1>';
-	});
+    // Posts demo requires SimplePdo (PostController). Skip when DB is disabled.
+    if (DatabaseFactory::isEnabled($config)) {
+        $router->get('/posts', [PostController::class, 'index']);
+        $router->get('/posts/@id:[0-9]+', [PostController::class, 'show']);
 
-	$router->group('/api', function() use ($router) {
-		$router->get('/users', [ ApiExampleController::class, 'getUsers' ]);
-		$router->get('/users/@id:[0-9]', [ ApiExampleController::class, 'getUser' ]);
-		$router->post('/users/@id:[0-9]', [ ApiExampleController::class, 'updateUser' ]);
-	});
-	
-}, [ SecurityHeadersMiddleware::class ]);
+        $router->group('/api', function (Router $router) {
+            $router->get('/posts', [PostController::class, 'apiIndex']);
+            $router->get('/posts/@id:[0-9]+', [PostController::class, 'apiShow']);
+        });
+    }
+}, [SecurityHeadersMiddleware::class]);

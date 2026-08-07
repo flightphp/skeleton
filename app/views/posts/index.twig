@@ -1,0 +1,22 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Posts — FlightPHP Skeleton{% endblock %}
+
+{% block body %}
+<div class="card">
+    <h1>Posts</h1>
+    <p class="muted">Loaded via ActiveRecord from SimplePdo (run <code>php runway migrate</code> if empty).</p>
+    {% if posts is empty %}
+        <p>No posts yet.</p>
+    {% else %}
+        <ul class="posts">
+            {% for post in posts %}
+                <li>
+                    <a href="{{ base_url }}posts/{{ post.id }}"><strong>{{ post.title }}</strong></a>
+                    <div class="muted">#{{ post.id }}{% if post.created_at %} · {{ post.created_at }}{% endif %}</div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

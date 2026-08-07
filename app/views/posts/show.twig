@@ -1,0 +1,14 @@
+{% extends 'layout.twig' %}
+
+{% block title %}{{ post.title }} — FlightPHP Skeleton{% endblock %}
+
+{% block body %}
+<div class="card">
+    <p class="muted"><a href="{{ base_url }}posts">← All posts</a></p>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    {% if post.created_at %}
+        <p class="muted">Created {{ post.created_at }}</p>
+    {% endif %}
+</div>
+{% endblock %}

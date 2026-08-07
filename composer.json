@@ -1,6 +1,6 @@
 {
     "name": "flightphp/skeleton",
-    "description": "A Flight PHP framework skeleton app to get your new projects up and running ASAP",
+    "description": "A Flight PHP framework skeleton app optimized for AI-assisted and human development",
     "keywords": [
         "microframework",
         "rest",
@@ -9,7 +9,8 @@
         "easy",
         "lite",
         "boilerplate",
-        "skeleton"
+        "skeleton",
+        "flightphp"
     ],
     "homepage": "https://docs.flightphp.com",
     "license": "MIT",
@@ -23,9 +24,32 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
-        "flightphp/core": "^3.0",
+        "ext-pdo": "*",
+        "flightphp/core": "^3.18",
         "flightphp/runway": "^1.2",
-        "tracy/tracy": "^2.9"
+        "flightphp/active-record": "^0.7",
+        "flightphp/session": "^0.3",
+        "level-2/dice": "^4.0",
+        "tracy/tracy": "^2.9",
+        "twig/twig": "^2.15 || ^3.0"
+    },
+    "require-dev": {
+        "flightphp/tracy-extensions": "^0.1 || ^0.2",
+        "phpstan/phpstan": "^1.12",
+        "phpunit/phpunit": "^9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "classmap": [
+            "app/commands/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "config": {
         "process-timeout": 0,
@@ -33,15 +57,18 @@
     },
     "scripts": {
         "start": "@php -S localhost:8000 -t public",
+        "test": "phpunit",
+        "analyse": "phpstan analyse --memory-limit=512M",
+        "phpstan": "@analyse",
+        "check": [
+            "@test",
+            "@analyse"
+        ],
         "post-create-project-cmd": [
-            "@php -r \"copy('app/config/config_sample.php', 'app/config/config.php');\"",
-            "@php -r \"mkdir('app/models/');\"",
-            "@php -r \"mkdir('app/utils/');\"",
-            "@php -r \"mkdir('app/cache/');\"",
-            "@php -r \"mkdir('app/log/');\""
+            "@php -r \"if (!file_exists('app/config/config.php')) { copy('app/config/config_sample.php', 'app/config/config.php'); }\"",
+            "@php -r \"if (!file_exists('.env') && file_exists('.env.example')) { copy('.env.example', '.env'); }\"",
+            "@php -r \"if (!file_exists('.runway-config.json')) { file_put_contents('.runway-config.json', json_encode(['index_root' => 'public/index.php', 'app_root' => 'app/'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL); }\"",
+            "@php -r \"@mkdir('app/cache', 0775, true); @mkdir('app/cache/twig', 0775, true); @mkdir('app/log', 0775, true);\""
         ]
-    },
-    "require-dev": {
-        "flightphp/tracy-extensions": "^0.1 || ^0.2"
     }
 }
