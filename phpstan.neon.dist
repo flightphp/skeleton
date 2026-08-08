@@ -1,0 +1,12 @@
+parameters:
+    level: 8
+    paths:
+        - app
+        - tests
+        - public
+    excludePaths:
+        - app/cache/*
+        - app/log/*
+        - app/config/config.php
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: true

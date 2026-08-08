@@ -1,102 +1,148 @@
 <?php
 
-use flight\Engine;
-use flight\database\PdoWrapper;
-use flight\debug\database\PdoQueryCapture;
+/**
+ * Services + Dice DI wiring.
+ *
+ * Bootstrap (web) provides:
+ *   @var \flight\Engine<object> $app
+ *   @var \App\Utils\Config      $config
+ *   @var string                 $projectRoot
+ *   @var string                 $ds
+ *   @var string                 $nonce
+ *
+ * Runway 1.x also requires this file after loading config.php, with $config as
+ * the raw array and no $app. Skip full wiring in that CLI context.
+ */
+
+use App\Utils\Config;
+use App\Utils\DatabaseFactory;
+use Dice\Dice;
+use flight\database\SimplePdo;
 use flight\debug\tracy\TracyExtensionLoader;
+use flight\Engine;
+use flight\Session;
 use Tracy\Debugger;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
-/*********************************************
- *         FlightPHP Service Setup           *
- *********************************************
- * This file registers services and integrations
- * for your FlightPHP application. Edit as needed.
- *
- * @var array  $config  From config.php
- * @var Engine $app     FlightPHP app instance
- **********************************************/
-
-
-
-/*********************************************
- *           Session Service Setup           *
- *********************************************
- * To enable sessions in FlightPHP, register the session service.
- * Docs: https://docs.flightphp.com/awesome-plugins/session
- *
- * Example:
- *   $app->register('session', \flight\Session::class, [
- *       [
- *           'prefix' 		=> 'flight_session_', 	  // Prefix for the session cookie
- *           'save_path'    => 'path/to/my/sessions', // Path to save session files
- *           // ...other options...
- *       ]
- *   ]);
- *
- * For advanced options, see the plugin documentation above.
- **********************************************/
-
-/*********************************************
- *           Tracy Debugger Setup            *
- *********************************************
- * Tracy is a powerful error handler and debugger for PHP.
- * Docs: https://tracy.nette.org/
- *
- * Key Tracy configuration options:
- *   - Debugger::enable([mode], [ip]);
- *       - mode: Debugger::Development or Debugger::Production
- *       - ip: restrict debug bar to specific IP(s)
- *   - Debugger::$logDirectory: where error logs are stored
- *   - Debugger::$strictMode: show all errors (true/E_ALL), or filter out deprecated notices
- *   - Debugger::$showBar: show/hide debug bar (auto-detected, can be forced)
- *   - Debugger::$maxLen: max length of dumped variables
- *   - Debugger::$maxDepth: max depth of dumped structures
- *   - Debugger::$editor: configure clickable file links (see docs)
- *   - Debugger::$email: send error notifications to email
- *
- * Example Tracy setups:
- *   Debugger::enable(); // Auto-detects environment
- *   Debugger::enable(Debugger::Development); // Explicitly set environment
- *   Debugger::enable('23.75.345.200'); // Restrict debug bar to specific IPs
- *
- * For more options, see https://tracy.nette.org/en/configuration
- **********************************************/
-Debugger::enable(); // Auto-detects environment
-// Debugger::enable(Debugger::Development); // Explicitly set environment
-// Debugger::enable('23.75.345.200'); // Restrict debug bar to specific IPs
-Debugger::$logDirectory = __DIR__ . $ds . '..' . $ds . 'log'; // Log directory
-Debugger::$strictMode = true; // Show all errors (set to E_ALL & ~E_DEPRECATED for less noise)
-// Debugger::$maxLen = 1000; // Max length of dumped variables (default: 150)
-// Debugger::$maxDepth = 5; // Max depth of dumped structures (default: 3)
-// Debugger::$editor = 'vscode'; // Enable clickable file links in debug bar
-// Debugger::$email = 'your@email.com'; // Send error notifications
-if (Debugger::$showBar === true && php_sapi_name() !== 'cli') {
-	(new TracyExtensionLoader($app)); // Load FlightPHP Tracy extensions
+// Runway loads config.php then services.php for config:get/set. No Engine yet.
+if (!isset($app) || !($app instanceof Engine) || !($config instanceof Config)) {
+    return;
 }
 
-/**********************************************
- *           Database Service Setup           *
- **********************************************/
-// Uncomment and configure the following for your database:
+// ---------------------------------------------------------------------------
+// Tracy
+// ---------------------------------------------------------------------------
+$logDir = $projectRoot . $ds . 'app' . $ds . 'log';
+if (!is_dir($logDir)) {
+    mkdir($logDir, 0775, true);
+}
 
-// MySQL Example:
-// $dsn = 'mysql:host=' . $config['database']['host'] . ';dbname=' . $config['database']['dbname'] . ';charset=utf8mb4';
+if ($config->isDebug()) {
+    Debugger::enable(Debugger::Development);
+} else {
+    Debugger::enable(Debugger::Production);
+}
+Debugger::$logDirectory = $logDir;
+Debugger::$strictMode = true;
 
-// SQLite Example:
-// $dsn = 'sqlite:' . $config['database']['file_path'];
+if (Debugger::$showBar === true && PHP_SAPI !== 'cli' && class_exists(TracyExtensionLoader::class)) {
+    new TracyExtensionLoader($app);
+}
 
-// Register Flight::db() service
-// In development, use PdoQueryCapture to log queries; in production, use PdoWrapper for performance.
-// $pdoClass = Debugger::$showBar === true ? PdoQueryCapture::class : PdoWrapper::class;
-// $app->register('db', $pdoClass, [ $dsn, $config['database']['user'] ?? null, $config['database']['password'] ?? null ]);
+// ---------------------------------------------------------------------------
+// Database (SimplePdo) — optional if driver is empty
+// ---------------------------------------------------------------------------
+$db = null;
+if (DatabaseFactory::isEnabled($config)) {
+    $db = DatabaseFactory::create($config);
+    // Optional Flight::db() for ecosystem code; app layer should inject SimplePdo
+    $app->map('db', function () use ($db) {
+        return $db;
+    });
+}
 
-/**********************************************
- *         Third-Party Integrations           *
- **********************************************/
-// Google OAuth Example:
-// $app->register('google_oauth', Google_Client::class, [ $config['google_oauth'] ]);
+// ---------------------------------------------------------------------------
+// Twig
+// ---------------------------------------------------------------------------
+$viewsPath = $projectRoot . $ds . 'app' . $ds . 'views';
+$twigCache = $projectRoot . $ds . 'app' . $ds . 'cache' . $ds . 'twig';
+if (!is_dir($twigCache)) {
+    mkdir($twigCache, 0775, true);
+}
 
-// Redis Example:
-// $app->register('redis', Redis::class, [ $config['redis']['host'], $config['redis']['port'] ]);
+$loader = new FilesystemLoader($viewsPath);
+$twig = new Environment($loader, [
+    'cache' => $config->isDebug() ? false : $twigCache,
+    'debug' => $config->isDebug(),
+    'auto_reload' => $config->isDebug(),
+]);
 
-// Add more service registrations below as needed
+$twig->addGlobal('csp_nonce', $nonce);
+$twig->addGlobal('app_env', $config->env());
+// Always trailing slash so {{ base_url }}posts joins correctly under subpaths
+$twig->addGlobal('base_url', $config->baseUrl());
+
+// Map Flight render → Twig (single documented view path)
+$app->map('render', function (string $template, array $data = []) use ($app, $twig) {
+    // Allow "welcome" or "welcome.twig"
+    if (substr($template, -5) !== '.twig') {
+        $template .= '.twig';
+    }
+    $app->response()->write($twig->render($template, $data));
+});
+
+// ---------------------------------------------------------------------------
+// Session (flightphp/session)
+// ---------------------------------------------------------------------------
+$sessionOptions = [
+    'prefix' => (string) $config->get('session.prefix', 'flight_sess_'),
+    'auto_commit' => true,
+];
+$savePath = $config->get('session.save_path');
+if ($savePath !== null && $savePath !== '') {
+    $sessionOptions['save_path'] = (string) $savePath;
+}
+// Defer session start on CLI
+if (PHP_SAPI === 'cli') {
+    $sessionOptions['start_session'] = false;
+}
+$session = new Session($sessionOptions);
+
+// ---------------------------------------------------------------------------
+// Dice + Engine substitutions (required — see Flight DI docs)
+// ---------------------------------------------------------------------------
+$container = new Dice();
+
+// Critical: reuse the same Engine instance; do not construct a new one
+$substitutions = [
+    Engine::class => $app,
+    Config::class => $config,
+    Environment::class => $twig,
+    Session::class => $session,
+];
+
+if ($db instanceof SimplePdo) {
+    $substitutions[SimplePdo::class] = $db;
+}
+
+$container = $container->addRule('*', [
+    'substitutions' => $substitutions,
+]);
+
+// Shared rules for classes resolved by name (belt + suspenders)
+$container = $container->addRule(Config::class, ['shared' => true]);
+$container = $container->addRule(Environment::class, ['shared' => true]);
+$container = $container->addRule(Session::class, ['shared' => true]);
+if ($db instanceof SimplePdo) {
+    $container = $container->addRule(SimplePdo::class, ['shared' => true]);
+}
+
+$app->registerContainerHandler(function ($class, $params) use ($container) {
+    return $container->create($class, $params);
+});
+
+// Helper for non-route code: $app->make(SomeClass::class)
+$app->map('make', function ($class, $params = []) use ($container) {
+    return $container->create($class, $params);
+});

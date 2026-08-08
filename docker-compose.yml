@@ -6,7 +6,10 @@ services:
         working_dir: /var/www
         command: php -S 0.0.0.0:8080 -t public
         environment:
-            docker: "true"
+            APP_ENV: development
+            APP_DEBUG: "true"
+            DB_DRIVER: sqlite
+            DB_SQLITE_PATH: /var/www/database.sqlite
         ports:
             - "8080:8080"
         volumes:
