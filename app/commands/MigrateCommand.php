@@ -242,7 +242,7 @@ class MigrateCommand extends AbstractBaseCommand
     private function splitSql(string $sql): array
     {
         // Strip line comments
-        $lines = preg_split('/\R/', $sql);
+        $lines = preg_split('/\R/u', $sql);
         $cleaned = [];
         if ($lines !== false) {
             foreach ($lines as $line) {
@@ -255,7 +255,7 @@ class MigrateCommand extends AbstractBaseCommand
         }
         $body = implode("\n", $cleaned);
 
-        $parts = preg_split('/;\s*[\r\n]+/', $body);
+        $parts = preg_split('/;\s*[\r\n]+/u', $body);
         $out = [];
         if ($parts !== false) {
             foreach ($parts as $part) {

@@ -130,12 +130,36 @@ class MigrateCommandTest extends TestCase
         $this->assertCount(2, $names);
     }
 
+
+    public function testSplitSqlPreservesUtf8Characters(): void
+    {
+        $sql = "-- comment with 日本語\n"
+            . "INSERT INTO demo (name) VALUES ('Καλημέρα');\n"
+            . "INSERT INTO demo (name) VALUES ('emoji 🚀');\n";
+
+        $cmd = new MigrateCommand([]);
+        $method = new \ReflectionMethod(MigrateCommand::class, 'splitSql');
+        $method->setAccessible(true);
+        /** @var array<int,string> $statements */
+        $statements = $method->invoke($cmd, $sql);
+
+        $this->assertCount(2, $statements);
+        foreach ($statements as $statement) {
+            $this->assertTrue(
+                mb_check_encoding($statement, 'UTF-8'),
+                'splitSql must keep statements as valid UTF-8'
+            );
+        }
+        $this->assertStringContainsString('Καλημέρα', $statements[0]);
+        $this->assertStringContainsString('🚀', $statements[1]);
+    }
+
     /**
      * @return array<int,string>
      */
     private function splitSql(string $sql): array
     {
-        $lines = preg_split('/\R/', $sql);
+        $lines = preg_split('/\R/u', $sql);
         $cleaned = [];
         if ($lines !== false) {
             foreach ($lines as $line) {
@@ -146,7 +170,7 @@ class MigrateCommandTest extends TestCase
             }
         }
         $body = implode("\n", $cleaned);
-        $parts = preg_split('/;\s*[\r\n]+/', $body);
+        $parts = preg_split('/;\s*[\r\n]+/u', $body);
         $out = [];
         if ($parts !== false) {
             foreach ($parts as $part) {
