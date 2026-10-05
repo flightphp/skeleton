@@ -17,7 +17,7 @@ class BootstrapHardeningTest extends TestCase
         $bootstrap = file_get_contents(dirname(__DIR__, 2) . '/app/config/bootstrap.php');
         $this->assertNotFalse($bootstrap);
         $this->assertStringContainsString("set('flight.allow_method_override', false)", $bootstrap);
-        $this->assertStringContainsString("property_exists($view, 'restrictToPath')", $bootstrap);
+        $this->assertStringContainsString("property_exists(\$view, 'restrictToPath')", $bootstrap);
         $this->assertStringContainsString('restrictToPath = true', $bootstrap);
     }
 }
