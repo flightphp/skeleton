@@ -68,11 +68,8 @@ $app->set('flight.content_length', false);
 // Harden: do not allow X-HTTP-Method-Override / _method spoofing unless you need it
 $app->set('flight.allow_method_override', false);
 // Harden: keep native View templates inside flight.views.path (Twig has its own loader root).
-// property_exists keeps this safe until flightphp/core ships View::$restrictToPath.
-$view = $app->view();
-if (property_exists($view, 'restrictToPath')) {
-    $view->restrictToPath = true;
-}
+// Harmless on older core that ignores the key; applied when flightphp/core supports it.
+$app->set('flight.views.restrict_to_path', true);
 
 // CSP nonce per request (used by SecurityHeadersMiddleware + Twig globals)
 $nonce = bin2hex(random_bytes(16));

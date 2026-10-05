@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Guards the security switches we expect in bootstrap for new projects.
- * Runtime View::$restrictToPath requires flightphp/core with that property.
  */
 class BootstrapHardeningTest extends TestCase
 {
@@ -17,7 +16,6 @@ class BootstrapHardeningTest extends TestCase
         $bootstrap = file_get_contents(dirname(__DIR__, 2) . '/app/config/bootstrap.php');
         $this->assertNotFalse($bootstrap);
         $this->assertStringContainsString("set('flight.allow_method_override', false)", $bootstrap);
-        $this->assertStringContainsString("property_exists(\$view, 'restrictToPath')", $bootstrap);
-        $this->assertStringContainsString('restrictToPath = true', $bootstrap);
+        $this->assertStringContainsString("set('flight.views.restrict_to_path', true)", $bootstrap);
     }
 }

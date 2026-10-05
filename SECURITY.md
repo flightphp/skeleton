@@ -60,7 +60,7 @@ When adding pages with third-party scripts, styles, or iframes, **update CSP del
 
 - Read input via **`$app->request()`** (query, data, cookies) — not `$_GET` / `$_POST` / `$_COOKIE` in app code.
 - **Twig auto-escapes** by default — do not use `|raw` / unescaped output unless the content is trusted and you understand the risk.
-- Bootstrap sets **`$app->view()->restrictToPath = true`** so Flight's native `View` cannot include templates outside `flight.views.path`. Twig's `FilesystemLoader` already roots at `app/views/`. Do not turn `restrictToPath` off without a documented reason.
+- Bootstrap sets **`flight.views.restrict_to_path` to `true`** so Flight's native `View` cannot include templates outside `flight.views.path`. Twig's `FilesystemLoader` already roots at `app/views/`. Do not turn this off without a documented reason.
 - Bootstrap also sets **`flight.allow_method_override` to `false`**. Only re-enable it if you need HTML forms to spoof `PUT`/`DELETE` via `_method`.
 - For JSON APIs, do not reflect unsanitized input into HTML elsewhere without escaping.
 - Validate and authorize **server-side**; never trust client-only checks.
